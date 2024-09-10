@@ -2,7 +2,7 @@
 
 /* Base */
 html {
-  font-size: 18px;
+  font-size: 16px;
 }
 
 /* 01 Font family */
@@ -12,7 +12,6 @@ body {
 }
 
 /* 03 Spacing */
-
 
 .padded {
   padding-top: 30px;
@@ -26,26 +25,35 @@ body {
   line-height: 30px;
 }
 
+pre[class*="language-"] {
+  /* Add border to div */
+  padding: 1em;
+  border: 1px solid #121b29;
+  margin: 0.5em 0;
+  overflow: auto;
+}
+
 div.main-content h2 {
   padding-top: 15px;
   padding-bottom: 5px;
 }
 
-header h1, h5 {
+header h1,
+h5 {
   display: inline;
 }
 
 /* 04 Color and contrast */
 
 body {
-  color: #c5ccce;
-  background-color: #282f3a;
+  color: #ffffff;
+  background-color: #0e1012;
 }
 
 h1,
 h2,
 strong {
-  color: #dcdede;
+  color: #ffffff;
 }
 
 header h5 {
@@ -58,11 +66,15 @@ code {
   padding: 2px 4px;
   vertical-align: text-bottom;
 }
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+  background: #090a0b !important;
+}
 
 /* 06 Primary color */
 
 a {
-  color: #7e92a2;
+  color: #81c4fd;
 }
 
 /* 07 Secondary colors */
