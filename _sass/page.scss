@@ -2,7 +2,7 @@
 
 /* Base */
 html {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 /* 01 Font family */
@@ -68,13 +68,8 @@ header h5 {
 
 /* 05 Balance */
 
-code {
-  padding: 2px 4px;
-  vertical-align: text-bottom;
-}
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
-  background: #090a0b !important;
 }
 
 /* 06 Primary color */

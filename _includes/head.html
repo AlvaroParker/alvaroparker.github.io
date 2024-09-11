@@ -1,15 +1,60 @@
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-{% seo %}
-{% if site.keywords or page.tags %}
-<meta name="keywords" content="{% if page.tags %}{{ page.tags | join: ','}}{% else %}{{ site.keywords | join: ',' }}{% endif %}" />
+<script type="module">
+  // Import the functions you need from the SDKs you need
+
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js";
+
+  // TODO: Add SDKs for Firebase products that you want to use
+
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB4kJvejHLhbUdGsyQ5Xj6iGBMg7AehN98",
+    authDomain: "github-4af96.firebaseapp.com",
+    projectId: "github-4af96",
+    storageBucket: "github-4af96.appspot.com",
+    messagingSenderId: "118374120629",
+    appId: "1:118374120629:web:3d015ed1d4cc35f1c452fc",
+    measurementId: "G-GY2NJ0TZ3G",
+  };
+
+  // Initialize Firebase
+
+  const app = initializeApp(firebaseConfig);
+
+  const analytics = getAnalytics(app);
+</script>
+{% seo %} {% if site.keywords or page.tags %}
+<meta
+  name="keywords"
+  content="{% if page.tags %}{{ page.tags | join: ','}}{% else %}{{ site.keywords | join: ',' }}{% endif %}"
+/>
 {% endif %}
 <link rel="shortcut icon" href="/favicon.ico" />
-<link rel="apple-touch-icon" href="/favicon.ico"/>
-<link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/assets/css/styles.css" />
-<link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/assets/css/prism.css" />
+<link rel="apple-touch-icon" href="/favicon.ico" />
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ site.baseurl }}/assets/css/styles.css"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ site.baseurl }}/assets/css/prism.css"
+/>
 <script src="{{ site.baseurl }}/assets/js/prism.js"></script>
-{% if site.analytics.plausible.enabled  %}
-<script defer data-domain="{{ site.analytics.plausible.site_fqdn }}" src="{{ site.analytics.plausible.script_source }}"></script>
+{% if site.analytics.plausible.enabled %}
+<script
+  defer
+  data-domain="{{ site.analytics.plausible.site_fqdn }}"
+  src="{{ site.analytics.plausible.script_source }}"
+></script>
 {% endif %}
