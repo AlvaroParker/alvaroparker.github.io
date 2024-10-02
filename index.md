@@ -28,7 +28,7 @@ Some of my personal projects:
 - [Arch Linux & Hyprland config](https://github.com/AlvaroParker/config): A custom Arch Linux configuration using Hyprland with a custom install script and swap configuration script.
 - [Web-Console](https://github.com/AlvaroParker/web-console): A website to interact and control a docker container using the command line from the browser.
 - [Lab-Control](https://github.com/AlvaroParker/lab-control): A software solution to do access control using fingerprint scanning.
-- ["Operating systems: Three easy pieces" documentation](https://alvaroparker.github.io/OperatingSystems/): A book summary used for my Operating System class.
+- ["Operating systems: Three easy pieces" documentation](https://os.alvarop.dev): A book summary used for my Operating System class.
 
 ## Skills
 
