@@ -1,9 +1,9 @@
 +++
-title="cmu bomb lab phase 6"
-date="2024-09-06t17:07:25.000z"
+title="CMU Bomb Lab Phase 6"
+date="2024-09-06T17:07:25.000Z"
 
 [taxonomies]
-tags = ["cmu bomb", "reverse engineering", "code"]
+tags = ["CMU Bomb", "Reverse Engineering", "Code"]
 +++
 
 # CMU Bomb Lab reverse engineering
