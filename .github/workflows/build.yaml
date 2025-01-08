@@ -27,6 +27,7 @@ jobs:
         | sudo tar xzf - -C /usr/local/bin
     - name: Generate HTML & CNAME
       run: |
+        cd themes/shadharon && git apply ../../math.patch  && cd ../../
         zola build
         echo 'blog.alvarop.dev' > ./public/CNAME
     - name: Deploy to gh-pages
