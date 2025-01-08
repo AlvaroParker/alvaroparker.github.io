@@ -171,7 +171,7 @@ This can be done using what is known as the loss function: _Loss functions for c
 There are multiple loss functions that can be used for different classification problems, in this case we will use the cross-entropy loss function. The cross-entropy loss function is defined as:
 
 $$
-x
+L = -\frac{1}{m} \sum_{i=1}^{m} \sum_{j=1}^{k} y_{ij} \log(h_{\theta}(x_i))_j
 $$
 
 ## Final notes
