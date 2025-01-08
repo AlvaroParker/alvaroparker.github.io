@@ -1,3 +1,19 @@
+diff --git a/templates/partials/footer.html b/templates/partials/footer.html
+index 9ba2c18..7dc6e05 100644
+--- a/templates/partials/footer.html
++++ b/templates/partials/footer.html
+@@ -9,11 +9,6 @@
+             {% endfor %}
+             {% endif %}
+         </nav>
+-        <nav>
+-            <span className="desktop-only">This blog is powered by 
+-                <a href = "https://getzola.org/" rel="noopener noreferrer" target="_blank">Zola</a> with theme by
+-                <a href = "https://syedzayyan.com/" rel="noopener noreferrer" target="_blank">SZM</a></span>
+-        </nav>
+     </section>
+     <script src="{{ get_url(path='js/main.js', trailing_slash=false) | safe }}"/></script>
+ </footer>
 diff --git a/templates/partials/header.html b/templates/partials/header.html
 index 00c8afa..58c1e4f 100644
 --- a/templates/partials/header.html
