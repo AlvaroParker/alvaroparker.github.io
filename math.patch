@@ -1,29 +1,26 @@
 diff --git a/templates/partials/header.html b/templates/partials/header.html
-index 00c8afa..4f37494 100644
+index 00c8afa..58c1e4f 100644
 --- a/templates/partials/header.html
 +++ b/templates/partials/header.html
-@@ -35,6 +35,20 @@
+@@ -35,6 +35,17 @@
          <script type="text/javascript" src="{{ get_url(path="search.js") }}"></script>
      {% endif %}
  
-+
-+    <script type="text/x-mathjax-config">
-+      MathJax.Hub.Config({
-+        tex2jax: {
-+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-+          processEscapes: true
-+        }
-+      });
++    <script>
++    MathJax = {
++      tex: {
++        inlineMath: [['$', '$'], ['\\(', '\\)']]
++      }
++    };
 +    </script>
-+
-+    <script type="text/javascript"
-+            src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
++    <script id="MathJax-script" async
++      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
 +    </script>
 +
      {% if config.extra.stylesheets %}
      {% for stylesheet in config.extra.stylesheets %}
      <link rel="stylesheet" href="{{ get_url(path=stylesheet) }}">
-@@ -61,10 +75,9 @@
+@@ -61,10 +72,9 @@
  
      {% set current_url = current_url | default(value="/") %}
      <meta property="og:url" content="{{ current_url }}">
