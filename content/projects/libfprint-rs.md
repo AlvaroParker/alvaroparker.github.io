@@ -1,7 +1,7 @@
 +++
 title = "Libfprint-rs a libfprint wrapper for Rust"
 description = "A libfprint wrapper to Rust to use fingerprint scanning devices on Linux."
-weight = 2
+weight = 5
 
 [extra]
 local_image = "/img/project-pictures/libfprint-rs.png"

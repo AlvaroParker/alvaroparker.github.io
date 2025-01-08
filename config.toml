@@ -18,7 +18,7 @@ highlight_theme = "css"
 [extra]
 toc = true
 use_cdn = false
-favicon = "/menu_icon/profile_pic.jpg"
+favicon = "/menu_icon/favicon.svg"
 headerImage = "/menu_icon/profile_pic.jpg"
 
 menu = [
@@ -27,6 +27,8 @@ menu = [
 ]
 
 socials = [
-    { name = "youtube", url = "https://www.linkedin.com/in/aparkerdf/", icon = "linkedin" },
+    { name = "linkedin", url = "https://www.linkedin.com/in/aparkerdf/", icon = "linkedin" },
     { name = "github", url = "https://github.com/AlvaroParker", icon = "github" },
+    { name = "gitlab", url = "https://gitlab.com/AlvaroParker", icon = "gitlab" },
+    { name = 'mail', url = 'mailto:aparkerdf@protonmail.com', icon = 'email' },
 ]
