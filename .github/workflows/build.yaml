@@ -29,7 +29,7 @@ jobs:
       run: |
         cd themes/shadharon && git apply ../../math.patch  && cd ../../
         zola build
-        echo 'blog.alvarop.dev' > ./public/CNAME
+        echo 'await.cl' > ./public/CNAME
     - name: Deploy to gh-pages
       if: ${{ github.event_name == 'push' && github.ref == format('refs/heads/{0}', env.SOURCE_BRANCH) }}
       uses: peaceiris/actions-gh-pages@v3
