@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+	<title>Alvaro&#x27;s Blog - Data science</title>
+	<subtitle>A personal portfolio&#x2F;blog website of Alvaro Parker del Fierro</subtitle>
+	<link href="https://await.cl/tags/data-science/atom.xml" rel="self" type="application/atom+xml"/>
+  <link href="https://await.cl"/>
+	<generator uri="https://www.getzola.org/">Zola</generator>
+	<updated>2025-01-06T15:50:16+00:00</updated>
+	<id>https://await.cl/tags/data-science/atom.xml</id>
+	<entry xml:lang="en">
+		<title>Understanding gradient descent</title>
+		<published>2025-01-06T15:50:16+00:00</published>
+		<updated>2025-01-06T15:50:16+00:00</updated>
+		<link rel="alternate" href="https://await.cl/posts/understanding-gradient-descent/" type="text/html"/>
+		<id>https://await.cl/posts/understanding-gradient-descent/</id>
+		<content type="html">&lt;h1 id=&quot;understanding-gradient-descent&quot;&gt;Understanding Gradient Descent&lt;&#x2F;h1&gt;
+&lt;p&gt;&lt;em&gt;In vector calculus, the gradient is a multi-variable generalization of the derivative. Whereas the ordinary derivative of a function of a single variable is a scalar-valued function, the gradient of a function of several variables is a vector-valued function&lt;&#x2F;em&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;em&gt;In simple words, a gradient is a vector or matrix representing the direction of change of a function.&lt;&#x2F;em&gt;
+&lt;br&gt;
+&lt;br&gt;
+When we train a neural network, the general goal is to minimize the loss function which is a function that compares the target output with the predicted output by our model and get the error or difference between the two of them. If our predicted output is too far from the target output, the loss function will be higher, and we want to minimize that.&lt;&#x2F;p&gt;
+&lt;p&gt;Given that the gradient points to the direction where the function increases the most, it makes sense that we want to move in the opposite direction of the gradient to find the minimum of the function, this is the idea behind gradient descent in the context of neural networks.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;example&quot;&gt;Example&lt;&#x2F;h3&gt;
+&lt;p&gt;Take the simple function:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+f(x, y) = (x + y)^2 = x^2 + 2xy + y^2
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;We can compute the gradient of this function by applying the partial derivative with respect to each variable:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\frac{\partial f}{\partial x} = 2x + 2y = 2(x + y)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\frac{\partial f}{\partial y} = 2x + 2y = 2(y + x)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Hence we have that our gradient is&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\nabla f =\begin{bmatrix} \frac{\partial f}{\partial x} \ \frac{\partial f}{\partial y} \end{bmatrix} = \begin{bmatrix} 2(x + y) \ 2(y + x) \end{bmatrix}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Now to minimize the function, we start with two random values for $x$ and $y$, let them be $x = 3$ and $y = 4$. We can compute the gradient at this point:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\nabla f(3, 4) = \begin{bmatrix} 2(3 + 4) \ 2(4 + 3) \end{bmatrix} = \begin{bmatrix} 14 \ 14 \end{bmatrix}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;And the function value at this point:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+f(3, 4) = (3 + 4)^2 = 49
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Then we can make a step in the opposite direction of the gradient to minimize the function:&lt;&#x2F;p&gt;
+&lt;p&gt;For $x$ we have:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+x = x - \alpha \frac{\partial f}{\partial x} = 3 - \alpha(14) = 3 - 14\alpha
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;And for $y$:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+y = y - \alpha \frac{\partial f}{\partial y} = 4 - \alpha(14) = 4 - 14\alpha
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Where $\alpha$ is the learning rate, a hyperparameter that controls how much we want to &amp;quot;jump&amp;quot; in the opposite direction of the gradient. We can set $\alpha = 0.1$, then we have:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+x_{new} = 3 - 14(0.1) = 1.6
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+y_{new} = 4 - 14(0.1) = 2.6
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Now computing the function value with our new values:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+f(1.6, 2.6) = (1.6 + 2.6)^2 = 17.64
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Now let&#x27;s do it one more time, computing the gradient at the new points:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\nabla f(1.6, 2.6) = \begin{bmatrix} 2(1.6+2.6) \ 2(1.6+2.6) \end{bmatrix} = \begin{bmatrix} 8.4 \ 8.4 \end{bmatrix}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;And our new points with a learning rate $\alpha = 0.1$:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+x_{new} = 1.6 - 0.1(8.4) = 0.76
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+y_{new} = 2.6 - 0.1(8.4) = 1.76
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;And the function value at this point:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+f(3.32, 3.68) = (0.76 + 1.76)^2 = 6.35
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;We can visualize the steps we took with the following plot:&lt;&#x2F;p&gt;
+&lt;div align=&quot;center&quot;&gt;
+  &lt;img src=&quot;&#x2F;img&#x2F;blog-img&#x2F;understanding-gradient-descent&#x2F;GradientDescent.png&quot; alt=&quot;Gradient descent points plot&quot;&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;We can also visualize the steps we took by plotting the vector field of the gradient:&lt;&#x2F;p&gt;
+&lt;div align=&quot;center&quot;&gt;
+  &lt;img src=&quot;&#x2F;img&#x2F;blog-img&#x2F;understanding-gradient-descent&#x2F;GradientVectorField.png&quot; alt=&quot;Gradient Vector Field plot&quot;&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;As we can see, we start with points $x = 3$ and $y = 4$ which returned a function value of $49$, after one step in the opposite direction of the gradient, we got the points $(1.6, 2.6)$ which returned a function value of $17.64$, and finally on our second step, we got the points $(0.76, 1.76)$ which returned a function value of $6.35$, we are getting closer to the minimum of the function.
+&lt;br&gt;
+&lt;br&gt;
+From this example, we can extrapolate the following pseudocode for gradient descent on a function $f(x, y) \in \mathbb{R}$:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;python&quot; class=&quot;language-python z-code&quot;&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;z-source z-python&quot;&gt;&lt;span class=&quot;z-meta z-function z-python&quot;&gt;&lt;span class=&quot;z-storage z-type z-function z-python&quot;&gt;&lt;span class=&quot;z-keyword z-declaration z-function z-python&quot;&gt;def&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-entity z-name z-function z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;gradient_descent&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-begin z-python&quot;&gt;(&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-parameters z-python&quot;&gt;&lt;span class=&quot;z-variable z-parameter z-python&quot;&gt;f&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-parameters z-python&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-variable z-parameter z-python&quot;&gt;x&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-parameters z-python&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-variable z-parameter z-python&quot;&gt;y&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-parameters z-python&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-variable z-parameter z-python&quot;&gt;alpha&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-parameters z-python&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-variable z-parameter z-python&quot;&gt;iterations&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-parameters z-end z-python&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-function z-begin z-python&quot;&gt;:&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+    &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;grad_x&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-assignment z-python&quot;&gt;=&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-function-call z-python&quot;&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-variable z-function z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;derivate&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-begin z-python&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;f&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-arguments z-python&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;x&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-end z-python&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+    &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;grad_y&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-assignment z-python&quot;&gt;=&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-function-call z-python&quot;&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-variable z-function z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;derivate&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-begin z-python&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;f&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-arguments z-python&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;y&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-end z-python&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+    &lt;span class=&quot;z-meta z-statement z-loop z-for z-python&quot;&gt;&lt;span class=&quot;z-keyword z-control z-loop z-for z-python&quot;&gt;for&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;i&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-control z-loop z-for z-in z-python&quot;&gt;in&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-statement z-loop z-for z-python&quot;&gt; &lt;span class=&quot;z-meta z-function-call z-python&quot;&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-variable z-function z-python&quot;&gt;&lt;span class=&quot;z-support z-function z-builtin z-python&quot;&gt;range&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-begin z-python&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;iterations&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-end z-python&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-statement z-loop z-for z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-block z-loop z-for z-python&quot;&gt;:&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+        &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;deriv_x&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-assignment z-python&quot;&gt;=&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-function-call z-python&quot;&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-variable z-function z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;grad_x&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-begin z-python&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;x&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-arguments z-python&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;y&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-end z-python&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+        &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;deriv_y&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-assignment z-python&quot;&gt;=&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-function-call z-python&quot;&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-variable z-function z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;grad_y&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-python&quot;&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-begin z-python&quot;&gt;(&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;x&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-separator z-arguments z-python&quot;&gt;,&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;y&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-punctuation z-section z-arguments z-end z-python&quot;&gt;)&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+        &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;x&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-assignment z-python&quot;&gt;=&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;x&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-arithmetic z-python&quot;&gt;-&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;alpha&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-arithmetic z-python&quot;&gt;*&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;deriv_x&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+        &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;y&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-assignment z-python&quot;&gt;=&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;y&lt;&#x2F;span&gt;&lt;&#x2F;span&gt; &lt;span class=&quot;z-keyword z-operator z-arithmetic z-python&quot;&gt;-&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;alpha&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-keyword z-operator z-arithmetic z-python&quot;&gt;*&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;deriv_y&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+    &lt;span class=&quot;z-keyword z-control z-flow z-return z-python&quot;&gt;return&lt;&#x2F;span&gt; &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;x&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;, &lt;span class=&quot;z-meta z-qualified-name z-python&quot;&gt;&lt;span class=&quot;z-meta z-generic-name z-python&quot;&gt;y&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Finally, gradient descent can also be applied for functions that takes a matrix as input and returns a value in other dimensions. That is $f(X) \in \mathbb{R}^n$, where $X \in \mathbb{R}^{m \times n}$.&lt;&#x2F;p&gt;
+&lt;p&gt;The procedure to do gradient descent will keep the same, you calculate the gradient of the function with respect to each element of the matrix to get a matrix of partial derivatives like this:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\nabla f(X) = \frac{\partial f}{\partial X} = \begin{bmatrix} \frac{\partial f}{\partial x_{11}} &amp;amp; \frac{\partial f}{\partial x_{12}} &amp;amp; \cdots &amp;amp; \frac{\partial f}{\partial x_{1n}} \ \frac{\partial f}{\partial x_{21}} &amp;amp; \frac{\partial f}{\partial x_{22}} &amp;amp; \cdots &amp;amp; \frac{\partial f}{\partial x_{2n}} \ \vdots &amp;amp; \vdots &amp;amp; \ddots &amp;amp; \vdots \ \frac{\partial f}{\partial x_{m1}} &amp;amp; \frac{\partial f}{\partial x_{m2}} &amp;amp; \cdots &amp;amp; \frac{\partial f}{\partial x_{mn}} \end{bmatrix}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Then you evaluate the gradient matrix on the current matrix $X$, and you update the matrix $X$:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+X_{new} = X - \alpha \nabla f(X)
+$$&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;example-2&quot;&gt;Example 2&lt;&#x2F;h2&gt;
+&lt;p&gt;Let&#x27;s see an example of gradient descent for a Softmax Regression model. Softmax regression is a generalization of logistic regression to the case where we want to handle multiple classes.&lt;&#x2F;p&gt;
+&lt;p&gt;In softmax regression we have an input vector $x$ with $n$ features, and we want to predict the probability for that input to belong to each of the $k$ classes. We can represent the model as:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+h_{\theta}(x) = \begin{bmatrix} P(y = 1 | x; \theta) \ P(y = 2 | x; \theta) \ \vdots \ P(y = k | x; \theta) \end{bmatrix}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;With $x \in \mathbb{R}^n$, $\theta \in \mathbb{R}^{n \times k}$, and $h_{\theta}(x) \in \mathbb{R}^k$.
+&lt;br&gt;
+&lt;br&gt;
+So our function takes an input vector and outputs another vector with the probabilities of belonging to each class. The sum of the probabilities must be equal to 1.&lt;&#x2F;p&gt;
+&lt;p&gt;To be able to generate this function $h_{\theta}(x)$, we need to find the parameters $\theta$ for which the function returns the best probabilities. Before we do this, we must first define what is the &lt;em&gt;best&lt;&#x2F;em&gt; probabilities.&lt;&#x2F;p&gt;
+&lt;p&gt;This can be done using what is known as the loss function: &lt;em&gt;Loss functions for classification are computationally feasible loss functions representing the price paid for inaccuracy of predictions in classification problems&lt;&#x2F;em&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;There are multiple loss functions that can be used for different classification problems, in this case we will use the cross-entropy loss function. The cross-entropy loss function is defined as:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+L = -\frac{1}{m} \sum_{i=1}^{m} \sum_{j=1}^{k} y_{ij} \log(h_{\theta}(x_i))_j
+$$&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;final-notes&quot;&gt;Final notes&lt;&#x2F;h2&gt;
+&lt;p&gt;Gradient descent is one of the foundational algorithms in neural networks and machine learning. It is used to find the minimum of a function by iteratively moving in the opposite direction of the gradient. In Neural Networks, the loss function is minimized using gradient descent to update the weight of the networks and decrease the error of the model.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;references&quot;&gt;References&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Gradient_descent&quot;&gt;Wikipedia - Gradient Descent&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.amazon.com&#x2F;dp&#x2F;B079M3D7JF&quot;&gt;Introduction to Deep Learning: From Logical Calculus to Artificial Intelligence&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;datacuber.cl&#x2F;clases_UAI&#x2F;tics579.html&quot;&gt;Datacuber clases UAI&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;http:&#x2F;&#x2F;ufldl.stanford.edu&#x2F;tutorial&#x2F;supervised&#x2F;SoftmaxRegression&#x2F;&quot;&gt;Standford Softmax Regression&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</content>
+	</entry>
+</feed>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+	<title>Alvaro&#x27;s Blog - xv6</title>
+	<subtitle>A personal portfolio&#x2F;blog website of Alvaro Parker del Fierro</subtitle>
+	<link href="https://await.cl/tags/xv6/atom.xml" rel="self" type="application/atom+xml"/>
+  <link href="https://await.cl"/>
+	<generator uri="https://www.getzola.org/">Zola</generator>
+	<updated>2025-01-06T17:09:15+00:00</updated>
+	<id>https://await.cl/tags/xv6/atom.xml</id>
+	<entry xml:lang="en">
+		<title>Como instalar xv6-riscv en Linux</title>
+		<published>2025-01-06T17:09:15+00:00</published>
+		<updated>2025-01-06T17:09:15+00:00</updated>
+		<link rel="alternate" href="https://await.cl/posts/xv6-installation/" type="text/html"/>
+		<id>https://await.cl/posts/xv6-installation/</id>
+		<content type="html">&lt;h1 id=&quot;instalacion-de-dependencias-xv6-riscv&quot;&gt;Instalacion de dependencias xv6-riscv&lt;&#x2F;h1&gt;
+&lt;p&gt;Este gist es una guia rapida para instalar las dependencias necesarias para compilar y correr el kernel de xv6-riscv. Se describen los pasos para instalar las dependencias en Fedora, Debian, Ubuntu, Ubuntu WSL, Arch Linux y MacOS.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;fedora&quot;&gt;Fedora&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;bash&quot; class=&quot;language-bash z-code&quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;z-source z-shell z-bash&quot;&gt;&lt;span class=&quot;z-meta z-function-call z-shell&quot;&gt;&lt;span class=&quot;z-variable z-function z-shell&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-shell&quot;&gt; dnf install binutils-riscv64-linux-gnu gcc-riscv64-linux-gnu make qemu-system-riscv git gcc&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;debian-ubuntu-y-ubuntu-wsl&quot;&gt;Debian, Ubuntu y Ubuntu WSL&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;bash&quot; class=&quot;language-bash z-code&quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;z-source z-shell z-bash&quot;&gt;&lt;span class=&quot;z-meta z-function-call z-shell&quot;&gt;&lt;span class=&quot;z-variable z-function z-shell&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-shell&quot;&gt; apt install git make binutils-riscv64-linux-gnu gcc-riscv64-linux-gnu qemu-system-misc gcc&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;arch&quot;&gt;Arch&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;bash&quot; class=&quot;language-bash z-code&quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;z-source z-shell z-bash&quot;&gt;&lt;span class=&quot;z-meta z-function-call z-shell&quot;&gt;&lt;span class=&quot;z-variable z-function z-shell&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-shell&quot;&gt; pacman&lt;span class=&quot;z-variable z-parameter z-option z-shell&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-parameter z-shell&quot;&gt; -&lt;&#x2F;span&gt;S&lt;&#x2F;span&gt; qemu-system-riscv riscv64-linux-gnu-binutils riscv64-linux-gnu-gcc make git gcc&lt;&#x2F;span&gt;
+
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;macos&quot;&gt;MacOS&lt;&#x2F;h2&gt;
+&lt;p&gt;Para MacOS puedes instalar las dependencias con &lt;a href=&quot;https:&#x2F;&#x2F;brew.sh&#x2F;&quot;&gt;brew&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;clonar-repositorio-y-compilar&quot;&gt;Clonar repositorio y compilar&lt;&#x2F;h1&gt;
+&lt;p&gt;Clona el repositorio oficial de xv6 o el fork que tengas en tu propio repositorio&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; class=&quot;language-bash z-code&quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;z-source z-shell z-bash&quot;&gt;&lt;span class=&quot;z-meta z-function-call z-shell&quot;&gt;&lt;span class=&quot;z-variable z-function z-shell&quot;&gt;git&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-shell&quot;&gt; clone https:&#x2F;&#x2F;github.com&#x2F;mit-pdos&#x2F;xv6-riscv.git&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Entra al directorio y compila el kernel:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; class=&quot;language-bash z-code&quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;z-source z-shell z-bash&quot;&gt;&lt;span class=&quot;z-meta z-function-call z-shell&quot;&gt;&lt;span class=&quot;z-support z-function z-cd z-shell&quot;&gt;cd&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-shell&quot;&gt; xv6-riscv&lt;&#x2F;span&gt;
+&lt;span class=&quot;z-meta z-function-call z-shell&quot;&gt;&lt;span class=&quot;z-variable z-function z-shell&quot;&gt;make&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-shell&quot;&gt; qemu &lt;span class=&quot;z-comment z-line z-number-sign z-shell&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-comment z-begin z-shell&quot;&gt;#&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-comment z-line z-number-sign z-shell&quot;&gt; Para correr el kernel en qemu&lt;&#x2F;span&gt;&lt;span class=&quot;z-comment z-line z-number-sign z-shell&quot;&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Una vez que el kernel este corriendo en qemu, puedes cerrar la ventana de qemu con &lt;code&gt;Ctrl + a&lt;&#x2F;code&gt; y luego &lt;code&gt;x&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+</content>
+	</entry>
+</feed>

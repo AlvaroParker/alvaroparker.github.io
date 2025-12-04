@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+	<title>Alvaro&#x27;s Blog - Swap</title>
+	<subtitle>A personal portfolio&#x2F;blog website of Alvaro Parker del Fierro</subtitle>
+	<link href="https://await.cl/tags/swap/atom.xml" rel="self" type="application/atom+xml"/>
+  <link href="https://await.cl"/>
+	<generator uri="https://www.getzola.org/">Zola</generator>
+	<updated>2025-01-06T17:07:25+00:00</updated>
+	<id>https://await.cl/tags/swap/atom.xml</id>
+	<entry xml:lang="en">
+		<title>How to configure hibernation with a swap file and encrypted root partition</title>
+		<published>2025-01-06T17:07:25+00:00</published>
+		<updated>2025-01-06T17:07:25+00:00</updated>
+		<link rel="alternate" href="https://await.cl/posts/hibernation-linux/" type="text/html"/>
+		<id>https://await.cl/posts/hibernation-linux/</id>
+		<content type="html">&lt;h1 id=&quot;how-to-enable-hibernation&quot;&gt;How to enable hibernation&lt;&#x2F;h1&gt;
+&lt;p&gt;This post assumes you followed the installation guide on &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;AlvaroParker&#x2F;secure-arch&#x2F;tree&#x2F;main&quot;&gt;Secure-Arch&lt;&#x2F;a&gt; (credits to &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Ataraxxia&quot;&gt;Ataraxxia&lt;&#x2F;a&gt;). This means you have Arch installed with a Unified Kernel Image, encrypted with LVM and secure boot enabled.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;creating-a-swapfile&quot;&gt;Creating a swapfile&lt;&#x2F;h2&gt;
+&lt;p&gt;The first things you&#x27;ll need to enable hibernation on this specific configuration is to create a swap file. I don&#x27;t like using swap partitions simply because that would imply I&#x27;ll have to encrypt that partition as well and I don&#x27;t want to read the docs to do that.&lt;&#x2F;p&gt;
+&lt;p&gt;So, following the Arch Linux wiki on &lt;a href=&quot;https:&#x2F;&#x2F;wiki.archlinux.org&#x2F;title&#x2F;Swap#Swap_file&quot;&gt;swap files&lt;&#x2F;a&gt;, we can create a new one by doing:&lt;&#x2F;p&gt;
+&lt;pre class=&quot;z-code&quot;&gt;&lt;code&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;# mkswap -U clear --size 12G --file &#x2F;swapfile
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;I&#x27;ll choose &lt;code&gt;12G&lt;&#x2F;code&gt; becuase my current laptop has roughly &lt;code&gt;6G&lt;&#x2F;code&gt;. The general rule to choose swap size is:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;2 GB or less of RAM: Swap should be at least 2x the amount of RAM.&lt;&#x2F;li&gt;
+&lt;li&gt;2 GB to 8 GB of RAM: Swap can be equal to the amount of RAM or up to 1.5x the RAM.&lt;&#x2F;li&gt;
+&lt;li&gt;8 GB to 16 GB of RAM: Swap can be equal to the amount of RAM or slightly less (e.g., 0.5x to 1x the RAM).&lt;&#x2F;li&gt;
+&lt;li&gt;More than 16 GB of RAM: Swap size is often equal to the RAM size or even smaller (e.g., 4 GB to 8 GB), depending on your needs.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Now to enable the swap file:&lt;&#x2F;p&gt;
+&lt;pre class=&quot;z-code&quot;&gt;&lt;code&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;# swapon &#x2F;swapfile
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;And too keep it across reboots we can add the following line to &lt;code&gt;&#x2F;etc&#x2F;fstab&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;pre class=&quot;z-code&quot;&gt;&lt;code&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;&#x2F;etc&#x2F;fstab
+    &#x2F;swapfile none swap defaults 0 0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Great! Now we have swap enabled on our system. You can check that by doing&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; class=&quot;language-bash z-code&quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;z-source z-shell z-bash&quot;&gt;&lt;span class=&quot;z-meta z-function-call z-shell&quot;&gt;&lt;span class=&quot;z-variable z-function z-shell&quot;&gt;free&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;And you should see something like this on your terminal&lt;&#x2F;p&gt;
+&lt;pre class=&quot;z-code&quot;&gt;&lt;code&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;               total        used        free      shared  buff&#x2F;cache   available
+Mem:         7034596     4476296      471520       67164     2432656     2558300
+Swap:       12582908     2605912     9976996
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;enabling-hibernation&quot;&gt;Enabling hibernation&lt;&#x2F;h2&gt;
+&lt;p&gt;To enable hibernation, we will need to add two kernel parameters to our configuration. The first one is &lt;code&gt;resume&lt;&#x2F;code&gt; to tell the kernel in which device the &lt;code&gt;swapfile&lt;&#x2F;code&gt; is and the second one is &lt;code&gt;resume_offset&lt;&#x2F;code&gt; to tell the kernel in which part of the device (aka offset) the &lt;code&gt;swapfile&lt;&#x2F;code&gt; is located.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;get-resume-parameter&quot;&gt;Get &lt;code&gt;resume&lt;&#x2F;code&gt; parameter&lt;&#x2F;h3&gt;
+&lt;p&gt;For the &lt;code&gt;resume&lt;&#x2F;code&gt; parameter, we will use the UUID of the disk that contains the &lt;code&gt;swapfile&lt;&#x2F;code&gt;. To find the UUID value first you&#x27;ll need to know in which disk your &lt;code&gt;swapfile&lt;&#x2F;code&gt; is:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; class=&quot;language-bash z-code&quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;z-source z-shell z-bash&quot;&gt;&lt;span class=&quot;z-meta z-function-call z-shell&quot;&gt;&lt;span class=&quot;z-variable z-function z-shell&quot;&gt;df&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-shell&quot;&gt;&lt;span class=&quot;z-variable z-parameter z-option z-shell&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-parameter z-shell&quot;&gt; -&lt;&#x2F;span&gt;h&lt;&#x2F;span&gt; &#x2F;swapfile&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;You should see an output like this:&lt;&#x2F;p&gt;
+&lt;pre class=&quot;z-code&quot;&gt;&lt;code&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;Filesystem           Size  Used Avail Use% Mounted on
+&#x2F;dev&#x2F;mapper&#x2F;vg-root  305G   80G  210G  28% &#x2F;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Which indicates that the &lt;code&gt;&#x2F;swapfile&lt;&#x2F;code&gt; is on device &lt;code&gt;&#x2F;dev&#x2F;mapper&#x2F;vg-root&lt;&#x2F;code&gt;. Now to get the UUID of that device we can do:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; class=&quot;language-bash z-code&quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;z-source z-shell z-bash&quot;&gt;&lt;span class=&quot;z-meta z-function-call z-shell&quot;&gt;&lt;span class=&quot;z-variable z-function z-shell&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-shell&quot;&gt; blkid &#x2F;dev&#x2F;mapper&#x2F;vg-root&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Wich should return something like this:&lt;&#x2F;p&gt;
+&lt;pre class=&quot;z-code&quot;&gt;&lt;code&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;&#x2F;dev&#x2F;mapper&#x2F;vg-root: UUID=&amp;quot;df9c76a1-25bc-4f83-8569-c9425a86115d&amp;quot; BLOCK_SIZE=&amp;quot;4096&amp;quot; TYPE=&amp;quot;ext4&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Great! So now we have our first kernel parameter value. Now let&#x27;s get the second one.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;get-resume-offset-parameter&quot;&gt;Get &lt;code&gt;resume_offset&lt;&#x2F;code&gt; parameter&lt;&#x2F;h3&gt;
+&lt;p&gt;You can check the &lt;a href=&quot;https:&#x2F;&#x2F;wiki.archlinux.org&#x2F;title&#x2F;Power_management&#x2F;Suspend_and_hibernate#Acquire_swap_file_offset&quot;&gt;Arch wiki article&lt;&#x2F;a&gt; for this as well.&lt;&#x2F;p&gt;
+&lt;p&gt;To get the &lt;code&gt;resume_offset&lt;&#x2F;code&gt; value, we can run the following command:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; class=&quot;language-bash z-code&quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;z-source z-shell z-bash&quot;&gt;&lt;span class=&quot;z-meta z-function-call z-shell&quot;&gt;&lt;span class=&quot;z-variable z-function z-shell&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-shell&quot;&gt; filefrag&lt;span class=&quot;z-variable z-parameter z-option z-shell&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-parameter z-shell&quot;&gt; -&lt;&#x2F;span&gt;v&lt;&#x2F;span&gt; &#x2F;swapfile&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Which should return something like this:&lt;&#x2F;p&gt;
+&lt;pre class=&quot;z-code&quot;&gt;&lt;code&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;Filesystem type is: ef53
+File size of &#x2F;swapfile is 4294967296 (1048576 blocks of 4096 bytes)
+ ext:     logical_offset:        physical_offset: length:   expected: flags:
+   0:        0..       0:      38912..     38912:      1:
+   1:        1..   22527:      38913..     61439:  22527:             unwritten
+   2:    22528..   53247:     899072..    929791:  30720:      61440: unwritten
+...
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;We are interested in the first &lt;code&gt;physical_offset&lt;&#x2F;code&gt; value which in this case is &lt;code&gt;38912&lt;&#x2F;code&gt;. You can also get the direct value of the offset by using &lt;code&gt;awk&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;pre class=&quot;z-code&quot;&gt;&lt;code&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;sudo filefrag -v swap_file | awk &amp;#39;$1==&amp;quot;0:&amp;quot; {print substr($4, 1, length($4)-2)}&amp;#39;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;adding-the-parameter-to-the-kernel-cmd-line&quot;&gt;Adding the parameter to the kernel cmd line&lt;&#x2F;h3&gt;
+&lt;p&gt;Now that we have the &lt;code&gt;uuid&lt;&#x2F;code&gt; of the device where the &lt;code&gt;&#x2F;swapfile&lt;&#x2F;code&gt; is and the &lt;code&gt;offset&lt;&#x2F;code&gt; of the &lt;code&gt;&#x2F;swapfile&lt;&#x2F;code&gt; file in this device, we can add the values to the kernel parameters.&lt;&#x2F;p&gt;
+&lt;p&gt;Remeber that the value we found previously where &lt;code&gt;&amp;quot;df9c76a1-25bc-4f83-8569-c9425a86115d&amp;quot;&lt;&#x2F;code&gt; for the UUID of the disk and &lt;code&gt;38912&lt;&#x2F;code&gt; for the offset of the &lt;code&gt;&#x2F;swapfile&lt;&#x2F;code&gt;. Now well need to tell the kernel this so it can be able to find the &lt;code&gt;&#x2F;swapfile&lt;&#x2F;code&gt; on boot.&lt;&#x2F;p&gt;
+&lt;p&gt;To do this in &lt;code&gt;dracut&lt;&#x2F;code&gt; open the &lt;code&gt;&#x2F;etc&#x2F;dracut.conf.d&#x2F;cmdline.conf&lt;&#x2F;code&gt; file, where you should see something like this:&lt;&#x2F;p&gt;
+&lt;pre class=&quot;z-code&quot;&gt;&lt;code&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;kernel_cmdline=&amp;quot;rd.lunks.uuid=luks-42eb3f89-15a3-427c-9cab-8bcc8d19f94c rd.lvm.lv=vg&#x2F;root root=&#x2F;dev&#x2F;mapper&#x2F;vg-root rootfstype=ext4 rootflags=rw,relatime&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Now simply add the &lt;code&gt;resume&lt;&#x2F;code&gt; and &lt;code&gt;resume_offset&lt;&#x2F;code&gt; parameters. At the end of the line and &lt;strong&gt;remember to close with a quote character&lt;&#x2F;strong&gt;. Also for the &lt;code&gt;resume&lt;&#x2F;code&gt; parameter, you&#x27;ll need to tell the kernel you are providing the UUID of the device, this is simply done by appending &lt;code&gt;=UUID&lt;&#x2F;code&gt; after &lt;code&gt;resume&lt;&#x2F;code&gt; (so your kernel parameter should look like &lt;code&gt;resume=UUID=&amp;lt;uuid of the device&amp;gt;&lt;&#x2F;code&gt;):&lt;&#x2F;p&gt;
+&lt;p&gt;Your &lt;code&gt;cmdline.conf&lt;&#x2F;code&gt; file should now look like this:&lt;&#x2F;p&gt;
+&lt;pre class=&quot;z-code&quot;&gt;&lt;code&gt;&lt;span class=&quot;z-text z-plain&quot;&gt;kernel_cmdline=&amp;quot;rd.lunks.uuid=luks-42eb3f89-15a3-427c-9cab-8bcc8d19f94c rd.lvm.lv=vg&#x2F;root root=&#x2F;dev&#x2F;mapper&#x2F;vg-root rootfstype=ext4 rootflags=rw,relatime resume=UUID=df9c76a1-25bc-4f83-8569-c9425a86115d resume_offset=38912&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;rebuilding-your-unified-kernel-image&quot;&gt;Rebuilding your unified kernel image&lt;&#x2F;h3&gt;
+&lt;p&gt;Not sure if this step is needed, but I do it anyway. To rebuild the unified kernel image I simply reinstall the &lt;code&gt;linux&lt;&#x2F;code&gt; kernel:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; class=&quot;language-bash z-code&quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;z-source z-shell z-bash&quot;&gt;&lt;span class=&quot;z-meta z-function-call z-shell&quot;&gt;&lt;span class=&quot;z-variable z-function z-shell&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;span class=&quot;z-meta z-function-call z-arguments z-shell&quot;&gt; pacman&lt;span class=&quot;z-variable z-parameter z-option z-shell&quot;&gt;&lt;span class=&quot;z-punctuation z-definition z-parameter z-shell&quot;&gt; -&lt;&#x2F;span&gt;S&lt;&#x2F;span&gt; linux&lt;&#x2F;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;some-tips&quot;&gt;Some tips&lt;&#x2F;h2&gt;
+&lt;p&gt;If you have enough ram and you just want swap in your system for hibernation, you can &lt;a href=&quot;https:&#x2F;&#x2F;wiki.archlinux.org&#x2F;title&#x2F;Swap#Swappiness&quot;&gt;configure the swappiness&lt;&#x2F;a&gt; on your devices such that it is never actually used.&lt;&#x2F;p&gt;
+</content>
+	</entry>
+</feed>
